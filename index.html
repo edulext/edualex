@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console Script Loader - Catppuccin Mocha</title>
+    <title>edulext</title>
     <!-- Font Inter & Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,13 +141,8 @@
             font-size: 0.9rem;
             color: var(--text);
             line-height: 1.5;
+            max-height: 380px;
         }
-
-        /* Syntax Highlighting Mock */
-        .kw { color: var(--mauve); font-weight: 600; }
-        .fn { color: var(--blue); }
-        .str { color: var(--green); }
-        .cm { color: var(--overlay0); font-style: italic; }
 
         /* Action Bar */
         .action-bar {
@@ -296,19 +291,7 @@
                     <span class="file-name">console.js</span>
                     <span>JavaScript</span>
                 </div>
-                <pre><code id="codeText"><span class="cm">// Script tự động load file console.js từ GitHub</span>
-<span class="kw">async function</span> <span class="fn">loadConsoleScript</span>() {
-    <span class="kw">const</span> url = <span class="str">'https://raw.githubusercontent.com/username/repository/main/console.js'</span>;
-    <span class="kw">try</span> {
-        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(url);
-        <span class="kw">const</span> scriptText = <span class="kw">await</span> response.<span class="fn">text</span>();
-        <span class="fn">eval</span>(scriptText);
-        console.<span class="fn">log</span>(<span class="str">'%c[Success] Loaded console.js successfully!'</span>, <span class="str">'color: #a6e3a1; font-weight: bold;'</span>);
-    } <span class="kw">catch</span> (err) {
-        console.<span class="fn">error</span>(<span class="str">'Failed to fetch script:'</span>, err);
-    }
-}
-<span class="fn">loadConsoleScript</span>();</code></pre>
+                <pre><code id="codeText">Đang tải nội dung file console.js...</code></pre>
             </div>
 
             <div class="action-bar">
@@ -317,7 +300,7 @@
                     <span id="btnText">Copy Code</span>
                 </button>
                 <div class="copy-hint">
-                    💡 Bấm nút để sao chép nhanh toàn bộ mã nguồn `console.js` vào bộ nhớ tạm.
+                    💡 Bấm nút để sao chép toàn bộ mã nguồn từ file `console.js` vào bộ nhớ tạm.
                 </div>
             </div>
         </main>
@@ -369,29 +352,39 @@
             </div>
 
             <div class="warning-box">
-                ⚠️ <strong>Lưu ý bảo mật:</strong> Hãy chỉ dán các đoạn mã từ những nguồn tin cậy để bảo vệ dữ liệu cá nhân của bạn.
+                ⚠️ <strong>Lưu ý bảo mật:</strong> Chỉ chạy các đoạn mã từ nguồn đáng tin cậy để tránh nguy cơ lộ thông tin cá nhân.
             </div>
         </section>
     </div>
 
-    <!-- Script Clipboard -->
+    <!-- Script tự động nạp console.js từ cùng thư mục -->
     <script>
-        function copyCode() {
-            // Raw JS code to copy
-            const rawCode = `async function loadConsoleScript() {
-    const url = 'https://raw.githubusercontent.com/username/repository/main/console.js';
-    try {
-        const response = await fetch(url);
-        const scriptText = await response.text();
-        eval(scriptText);
-        console.log('%c[Success] Loaded console.js successfully!', 'color: #a6e3a1; font-weight: bold;');
-    } catch (err) {
-        console.error('Failed to fetch script:', err);
-    }
-}
-loadConsoleScript();`;
+        let rawCodeText = '';
 
-            navigator.clipboard.writeText(rawCode).then(() => {
+        // Đọc trực tiếp file console.js nằm kế bên
+        fetch('./console.js')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Không thể nạp file console.js');
+                }
+                return response.text();
+            })
+            .then(data => {
+                rawCodeText = data;
+                document.getElementById('codeText').textContent = data;
+            })
+            .catch(err => {
+                document.getElementById('codeText').textContent = '// Lỗi: Không thể tìm thấy hoặc tải file console.js nằm cùng thư mục.';
+                console.error(err);
+            });
+
+        function copyCode() {
+            if (!rawCodeText) {
+                alert('Chưa tải xong nội dung file console.js!');
+                return;
+            }
+
+            navigator.clipboard.writeText(rawCodeText).then(() => {
                 const btnText = document.getElementById('btnText');
                 const copyBtn = document.getElementById('copyBtn');
                 
