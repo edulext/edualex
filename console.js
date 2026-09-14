@@ -1,0 +1,1 @@
+['copy','cut','paste','selectstart','contextmenu'].forEach(e=>document.addEventListener(e,x=>x.stopPropagation(),true));
