@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>edulext</title>
+    <title>edunext</title>
     <!-- Font Inter & Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +30,7 @@
             --yellow: #f9e2af;
             --peach: #fab387;
             --red: #f38ba8;
+            --teal: #94e2d5;
         }
 
         * {
@@ -52,7 +53,7 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             display: flex;
             flex-direction: column;
             gap: 24px;
@@ -76,10 +77,10 @@
             font-size: 0.95rem;
         }
 
-        /* Grid System 2 Col */
-        .grid-2col {
+        /* Grid System 3 Col */
+        .grid-3col {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
             align-items: start;
         }
@@ -119,49 +120,11 @@
             border-radius: 4px;
         }
 
-        /* Code Viewer */
-        .code-block {
-            background-color: var(--crust);
-            border: 1px solid var(--surface0);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .code-header {
-            background-color: rgba(255, 255, 255, 0.03);
-            padding: 10px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--surface0);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--subtext0);
-        }
-
-        .code-header .file-name {
-            color: var(--green);
-            font-weight: 600;
-        }
-
-        pre {
-            padding: 18px;
-            overflow-x: auto;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--text);
-            line-height: 1.5;
-            height: 160px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
         /* Action Bar */
         .action-bar {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 8px;
             margin-bottom: 20px;
         }
 
@@ -177,13 +140,15 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             transition: all 0.2s ease;
             white-space: nowrap;
+            width: 100%;
         }
 
         .btn-copy:hover {
-            background-color: var(--sapphire);
+            opacity: 0.9;
             transform: translateY(-1px);
         }
 
@@ -194,7 +159,7 @@
         .copy-hint {
             color: var(--subtext0);
             font-size: 0.82rem;
-            flex: 1;
+            text-align: center;
         }
 
         /* Steps Section */
@@ -277,12 +242,11 @@
             color: var(--yellow);
             font-size: 0.85rem;
             margin-top: 16px;
+            text-align: center;
         }
 
-        @media (max-width: 900px) {
-            .grid-2col { grid-template-columns: 1fr; }
-            .action-bar { flex-direction: column; align-items: stretch; }
-            .btn-copy { justify-content: center; }
+        @media (max-width: 1100px) {
+            .grid-3col { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -295,33 +259,25 @@
             <p>Cho phép copy / paste vào edunext ( edu lech )</p>
         </header>
 
-        <!-- Main Content 2 Columns -->
-        <div class="grid-2col">
+        <!-- Main Content 3 Columns -->
+        <div class="grid-3col">
             
             <!-- CÁCH 1 -->
             <main class="card">
                 <div class="card-header">
                     <div class="card-title">
                         <div class="icon"></div>
-                        Cách 1: Chạy qua DevTools (Thủ công)
+                        Cách 1: DevTools (Thủ công)
                     </div>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-header">
-                        <span class="file-name">console.js</span>
-                        <span>JavaScript</span>
-                    </div>
-                    <pre><code id="codeText">Đang tải nội dung file console.js...</code></pre>
                 </div>
 
                 <div class="action-bar">
-                    <button class="btn-copy" id="copyBtn" onclick="copyCode()">
+                    <button class="btn-copy" id="copyConsoleBtn" onclick="copyConsoleCode()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        <span id="btnText">Copy Mã Source</span>
+                        <span id="btnConsoleText">Copy Mã Console</span>
                     </button>
                     <div class="copy-hint">
-                        Sao chép toàn bộ mã nguồn từ file console.js.
+                        Sao chép mã nguồn trực tiếp từ file console.js.
                     </div>
                 </div>
 
@@ -365,16 +321,8 @@
                 <div class="card-header">
                     <div class="card-title" style="color: var(--peach);">
                         <div class="icon" style="background-color: var(--peach);"></div>
-                        Cách 2: Sử dụng Bookmarklet (Tự động 1-Click)
+                        Cách 2: Bookmarklet (1-Click)
                     </div>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-header">
-                        <span class="file-name">bookmarklet.js</span>
-                        <span>JavaScript URI</span>
-                    </div>
-                    <pre><code id="bookmarkletText">javascript:(function(){['copy','cut','paste','selectstart','contextmenu'].forEach(e=>document.addEventListener(e,x=>x.stopPropagation(),true));})();</code></pre>
                 </div>
 
                 <div class="action-bar">
@@ -413,8 +361,8 @@
                         <div class="step-body">
                             <div class="step-title">Lưu Cấu Hình</div>
                             <div class="step-desc">
-                                Tên: Đặt tên tùy chọn (ví dụ: <span class="code-inline" style="color: var(--mauve);">Bypass EduNext</span>).<br>
-                                URL: Dán đoạn mã Bookmarklet đã copy ở trên vào ô URL -> Bấm <strong>Lưu</strong>.
+                                Tên: Tùy chọn (ví dụ: <span class="code-inline" style="color: var(--mauve);">Bypass EduNext</span>).<br>
+                                URL: Dán mã Bookmarklet đã copy ở trên -> Bấm <strong>Lưu</strong>.
                             </div>
                         </div>
                     </div>
@@ -424,7 +372,69 @@
                         <div class="step-body">
                             <div class="step-title">Kích Hoạt Trên EduNext</div>
                             <div class="step-desc">
-                                Khi làm bài trên EduNext, nhấp trực tiếp nút <span class="code-inline" style="color: var(--mauve);">Bypass EduNext</span> trên thanh Bookmark để mở khóa.
+                                Khi làm bài trên EduNext, nhấp trực tiếp nút Bookmark vừa tạo trên thanh công cụ.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CÁCH 3 -->
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-title" style="color: var(--teal);">
+                        <div class="icon" style="background-color: var(--teal);"></div>
+                        Cách 3: Tampermonkey (Tự động)
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn-copy" id="copyTamperBtn" onclick="copyTampermonkeyCode()" style="background-color: var(--teal);">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span id="btnTamperText">Copy Mã Tampermonkey</span>
+                    </button>
+                    <div class="copy-hint">
+                        Sao chép mã UserScript từ file tampermonkey.js.
+                    </div>
+                </div>
+
+                <div class="steps">
+                    <div class="step-card">
+                        <div class="step-num" style="color: var(--teal);">01</div>
+                        <div class="step-body">
+                            <div class="step-title">Cài Extension Tampermonkey</div>
+                            <div class="step-desc">
+                                Cài đặt tiện ích mở rộng <strong>Tampermonkey</strong> từ Cửa hàng Chrome / Edge.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-num" style="color: var(--yellow);">02</div>
+                        <div class="step-body">
+                            <div class="step-title">Tạo Script Mới</div>
+                            <div class="step-desc">
+                                Bấm biểu tượng Tampermonkey trên thanh công cụ -> Chọn <strong>Create a new script...</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-num" style="color: var(--green);">03</div>
+                        <div class="step-body">
+                            <div class="step-title">Dán Mã & Lưu</div>
+                            <div class="step-desc">
+                                Bấm nút <strong>Copy Mã Tampermonkey</strong> ở trên, xóa sạch code cũ trong editor rồi dán vào -> Nhấn <span class="kbd">Ctrl + S</span> để lưu.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-num" style="color: var(--lavender);">04</div>
+                        <div class="step-body">
+                            <div class="step-title">Tự Động Kích Hoạt</div>
+                            <div class="step-desc">
+                                Mở EduNext, tiện ích sẽ tự chạy ngầm và mở khóa copy/paste hoàn toàn tự động.
                             </div>
                         </div>
                     </div>
@@ -438,66 +448,68 @@
         </div>
     </div>
 
-    <!-- Script tự động nạp console.js từ cùng thư mục -->
+    <!-- Script tự động nạp console.js và tampermonkey.js từ cùng thư mục -->
     <script>
-        let rawCodeText = '';
+        let rawConsoleCode = '';
+        let rawTamperCode = '';
         const bookmarkletCode = "javascript:(function(){['copy','cut','paste','selectstart','contextmenu'].forEach(e=>document.addEventListener(e,x=>x.stopPropagation(),true));})();";
 
+        // Fetch console.js
         fetch('./console.js')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Không thể nạp file console.js');
-                }
+                if (!response.ok) throw new Error('Không thể nạp console.js');
                 return response.text();
             })
-            .then(data => {
-                rawCodeText = data;
-                document.getElementById('codeText').textContent = data;
-            })
-            .catch(err => {
-                document.getElementById('codeText').textContent = '// Lỗi: Không thể tìm thấy hoặc tải file console.js nằm cùng thư mục.';
-                console.error(err);
-            });
+            .then(data => { rawConsoleCode = data; })
+            .catch(err => console.error(err));
 
-        function copyCode() {
-            if (!rawCodeText) {
-                alert('Chưa tải xong nội dung file console.js!');
+        // Fetch tampermonkey.js
+        fetch('./tampermonkey.js')
+            .then(response => {
+                if (!response.ok) throw new Error('Không thể nạp tampermonkey.js');
+                return response.text();
+            })
+            .then(data => { rawTamperCode = data; })
+            .catch(err => console.error(err));
+
+        function copyConsoleCode() {
+            if (!rawConsoleCode) {
+                alert('Chưa tải xong file console.js!');
                 return;
             }
-
-            navigator.clipboard.writeText(rawCodeText).then(() => {
-                const btnText = document.getElementById('btnText');
-                const copyBtn = document.getElementById('copyBtn');
-                
-                btnText.textContent = 'Đã sao chép!';
-                copyBtn.style.backgroundColor = 'var(--green)';
-                copyBtn.style.color = 'var(--crust)';
-
-                setTimeout(() => {
-                    btnText.textContent = 'Copy Mã Source';
-                    copyBtn.style.backgroundColor = 'var(--blue)';
-                }, 2000);
-            }).catch(err => {
-                console.error('Lỗi khi sao chép: ', err);
+            navigator.clipboard.writeText(rawConsoleCode).then(() => {
+                handleCopySuccess('btnConsoleText', 'copyConsoleBtn', 'Copy Mã Console', 'var(--blue)');
             });
         }
 
         function copyBookmarklet() {
             navigator.clipboard.writeText(bookmarkletCode).then(() => {
-                const btnText = document.getElementById('btnBookmarkletText');
-                const copyBtn = document.getElementById('copyBookmarkletBtn');
-                
-                btnText.textContent = 'Đã sao chép!';
-                copyBtn.style.backgroundColor = 'var(--green)';
-                copyBtn.style.color = 'var(--crust)';
-
-                setTimeout(() => {
-                    btnText.textContent = 'Copy Mã Bookmarklet';
-                    copyBtn.style.backgroundColor = 'var(--peach)';
-                }, 2000);
-            }).catch(err => {
-                console.error('Lỗi khi sao chép Bookmarklet: ', err);
+                handleCopySuccess('btnBookmarkletText', 'copyBookmarkletBtn', 'Copy Mã Bookmarklet', 'var(--peach)');
             });
+        }
+
+        function copyTampermonkeyCode() {
+            if (!rawTamperCode) {
+                alert('Chưa tải xong file tampermonkey.js!');
+                return;
+            }
+            navigator.clipboard.writeText(rawTamperCode).then(() => {
+                handleCopySuccess('btnTamperText', 'copyTamperBtn', 'Copy Mã Tampermonkey', 'var(--teal)');
+            });
+        }
+
+        function handleCopySuccess(btnTextId, btnId, defaultText, defaultColor) {
+            const btnText = document.getElementById(btnTextId);
+            const copyBtn = document.getElementById(btnId);
+            
+            btnText.textContent = 'Đã sao chép!';
+            copyBtn.style.backgroundColor = 'var(--green)';
+            copyBtn.style.color = 'var(--crust)';
+
+            setTimeout(() => {
+                btnText.textContent = defaultText;
+                copyBtn.style.backgroundColor = defaultColor;
+            }, 2000);
         }
     </script>
 </body>
